@@ -132,6 +132,50 @@
     </footer>
 
   </main>
+<script>
+(function () {
+  const translations = {
+    ro: {
+      title: "Calendar Ortodox 2026",
+      parish: "Parohia Ortodoxă Română Fredericia-Middelfart, Danemarca",
+      source: "Calendarul este furnizat de",
+      link: "Calendarul Patriarhiei Române"
+    },
+    da: {
+      title: "Ortodoks kalender 2026",
+      parish: "Den rumænsk-ortodokse menighed i Fredericia-Middelfart, Danmark",
+      source: "Kalenderen leveres af",
+      link: "Den rumænske patriarkats kalender"
+    },
+    en: {
+      title: "Orthodox Calendar 2026",
+      parish: "Romanian Orthodox Parish of Fredericia-Middelfart, Denmark",
+      source: "Calendar provided by",
+      link: "The Romanian Patriarchate's Calendar"
+    }
+  };
 
+  const params = new URLSearchParams(window.location.search);
+  const requested = (params.get("lang") || "").toLowerCase();
+  const lang = requested.startsWith("da") ? "da"
+             : requested.startsWith("en") ? "en" : "ro";
+  const t = translations[lang];
+
+  document.documentElement.lang = lang;
+  const heading = document.querySelector(".calendar-header h1");
+  const parish = document.querySelector(".calendar-header p");
+  const footer = document.querySelector(".calendar-footer");
+  if (heading) heading.textContent = t.title;
+  if (parish) parish.textContent = t.parish;
+  if (footer) {
+    const link = footer.querySelector("a");
+    if (link) {
+      link.textContent = t.link;
+      footer.replaceChildren(document.createTextNode(t.source + " "), link);
+    }
+  }
+  document.title = t.title + " - " + t.parish;
+})();
+</script>
 </body>
 </html>
